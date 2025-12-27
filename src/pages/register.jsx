@@ -1,33 +1,28 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
-const Login = () => {
+const Register = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("CONSULTANT");
 
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    const savedUser = JSON.parse(localStorage.getItem("user"));
-
-    if (
-      savedUser &&
-      savedUser.username === username &&
-      savedUser.password === password
-    ) {
-      localStorage.setItem("role", role);
-      navigate(role === "CONSULTANT" ? "/submit" : "/review");
-    } else {
-      alert("Invalid credentials");
+  const handleRegister = () => {
+    if (!username || !password) {
+      alert("All fields are required");
+      return;
     }
+
+    localStorage.setItem("user", JSON.stringify({ username, password }));
+    alert("Registration successful");
+    navigate("/");
   };
 
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        <h2 style={styles.title}>Digital Knowledge Network</h2>
-        <p style={styles.subtitle}>Sign in to your account</p>
+        <h2 style={styles.title}>Create Account</h2>
+        <p style={styles.subtitle}>Register as a new user</p>
 
         <input
           type="text"
@@ -45,23 +40,14 @@ const Login = () => {
           style={styles.input}
         />
 
-        <select
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-          style={styles.input}
-        >
-          <option value="CONSULTANT">Consultant</option>
-          <option value="CHAMPION">Knowledge Champion</option>
-        </select>
-
-        <button onClick={handleLogin} style={styles.button}>
-          Login
+        <button onClick={handleRegister} style={styles.button}>
+          Register
         </button>
 
         <p style={styles.footerText}>
-          New user?{" "}
-          <Link to="/register" style={styles.link}>
-            Register here
+          Already have an account?{" "}
+          <Link to="/" style={styles.link}>
+            Login
           </Link>
         </p>
       </div>
@@ -98,17 +84,14 @@ const styles = {
   },
   input: {
     width: "100%",
-    padding: "12px",
     height: "44px",
+    padding: "12px",
+    marginBottom: "15px",
     borderRadius: "6px",
     border: "1px solid #ccc",
     fontSize: "14px",
     outline: "none",
     boxSizing: "border-box",
-    appearance: "none",
-    WebkitAppearance: "none",
-    MozAppearance: "none",
-    marginBottom: "15px",
   },
   button: {
     width: "100%",
@@ -134,4 +117,4 @@ const styles = {
   },
 };
 
-export default Login;
+export default Register;
