@@ -9,6 +9,8 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
+    console.log("Logging in with", JSON.parse(localStorage.getItem("user")));
+    console.log("saved user", username);
     const savedUser = JSON.parse(localStorage.getItem("user"));
 
     if (
