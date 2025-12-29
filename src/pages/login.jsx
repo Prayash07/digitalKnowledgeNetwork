@@ -9,20 +9,22 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    console.log("Logging in with", JSON.parse(localStorage.getItem("user")));
-    console.log("saved user", username);
-    const savedUser = JSON.parse(localStorage.getItem("user"));
+    localStorage.setItem("role", role);
+    navigate("/dashboard");
+    // console.log("Logging in with", JSON.parse(localStorage.getItem("user")));
+    // console.log("saved user", username);
+    // const savedUser = JSON.parse(localStorage.getItem("user"));
 
-    if (
-      savedUser &&
-      savedUser.username === username &&
-      savedUser.password === password
-    ) {
-      localStorage.setItem("role", role);
-      navigate(role === "CONSULTANT" ? "/submit" : "/review");
-    } else {
-      alert("Invalid credentials");
-    }
+    // if (
+    //   savedUser &&
+    //   savedUser.username === username &&
+    //   savedUser.password === password
+    // ) {
+    //   localStorage.setItem("role", role);
+    //   navigate(role === "CONSULTANT" ? "/submit" : "/review");
+    // } else {
+    //   alert("Invalid credentials");
+    // }
   };
 
   return (
