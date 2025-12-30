@@ -11,9 +11,8 @@ const Login = () => {
   const handleLogin = () => {
     localStorage.setItem("role", role);
     navigate("/dashboard");
-    // console.log("Logging in with", JSON.parse(localStorage.getItem("user")));
-    // console.log("saved user", username);
-    // const savedUser = JSON.parse(localStorage.getItem("user"));
+
+    const savedUser = JSON.parse(localStorage.getItem("user"));
 
     // if (
     //   savedUser &&
@@ -21,7 +20,7 @@ const Login = () => {
     //   savedUser.password === password
     // ) {
     //   localStorage.setItem("role", role);
-    //   navigate(role === "CONSULTANT" ? "/submit" : "/review");
+    //   navigate("/dashboard");
     // } else {
     //   alert("Invalid credentials");
     // }

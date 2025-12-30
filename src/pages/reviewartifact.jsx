@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const ReviewDashboard = () => {
+const ReviewArtefact = () => {
+  const navigate = useNavigate();
   const [artefacts, setArtefacts] = useState([
     { id: "1", title: "GDPR Compliance Guide", status: "PENDING" },
     { id: "2", title: "Cloud Security Framework", status: "PENDING" },
@@ -19,6 +21,9 @@ const ReviewDashboard = () => {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
+        <button onClick={() => navigate(-1)} style={styles.backBtn}>
+          ← Back
+        </button>
         <h2 style={styles.title}>Pending Artefacts</h2>
         <p style={styles.subtitle}>
           Review and approve submitted knowledge artefacts
@@ -139,6 +144,14 @@ const styles = {
     cursor: "pointer",
     fontSize: "13px",
   },
+  backBtn: {
+    marginBottom: "15px",
+    background: "transparent",
+    border: "none",
+    color: "#1976d2",
+    cursor: "pointer",
+    fontSize: "14px",
+  },
 };
 
-export default ReviewDashboard;
+export default ReviewArtefact;

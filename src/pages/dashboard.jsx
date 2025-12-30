@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 const Dashboard = () => {
   const navigate = useNavigate();
   const role = localStorage.getItem("role");
+  console.log("User role:", role);
 
   // Mocked counters (sufficient for coursework)
   const stats = {
@@ -58,7 +59,7 @@ const Dashboard = () => {
             label="Go to Submit"
           />
 
-          {role === "Knowledge Champion" && (
+          {role === "CHAMPION" && (
             <DashboardTile
               title="Review Artefacts"
               desc="Approve or reject submitted knowledge artefacts."

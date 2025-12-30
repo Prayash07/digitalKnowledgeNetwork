@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SubmitArtefact = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
     summary: "",
@@ -40,6 +42,9 @@ const SubmitArtefact = () => {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
+        <button onClick={() => navigate("/dashboard")} style={styles.backBtn}>
+          ← Back
+        </button>
         <h2 style={styles.title}>Submit Knowledge Artefact</h2>
         <p style={styles.subtitle}>
           Provide details for review by Knowledge Champion
@@ -194,6 +199,14 @@ const styles = {
     fontSize: "15px",
     fontWeight: "bold",
     cursor: "pointer",
+  },
+  backBtn: {
+    marginBottom: "15px",
+    background: "transparent",
+    border: "none",
+    color: "#1976d2",
+    cursor: "pointer",
+    fontSize: "14px",
   },
   success: {
     marginTop: "15px",
