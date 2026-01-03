@@ -1,21 +1,60 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config/api";
 
 const ReviewArtefact = () => {
   const navigate = useNavigate();
-  const [artefacts, setArtefacts] = useState([
-    { id: "1", title: "GDPR Compliance Guide", status: "PENDING" },
-    { id: "2", title: "Cloud Security Framework", status: "PENDING" },
-  ]);
 
-  const approveArtefact = (id) => {
-    setArtefacts((prev) => prev.filter((a) => a.id !== id));
-    alert("Artefact approved and published");
+  const [artefacts, setArtefacts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  // Fetch pending artefacts on load
+  useEffect(() => {
+    const fetchArtefacts = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/artefacts/pending`);
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch artefacts");
+        }
+
+        const data = await res.json();
+        setArtefacts(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchArtefacts();
+  }, []);
+
+  const approveArtefact = async (id) => {
+    try {
+      await fetch(`${API_BASE_URL}/api/artefacts/${id}/approve`, {
+        method: "POST",
+      });
+
+      setArtefacts((prev) => prev.filter((a) => a.id !== id));
+      alert("Artefact approved and published");
+    } catch {
+      alert("Failed to approve artefact");
+    }
   };
 
-  const rejectArtefact = (id) => {
-    setArtefacts((prev) => prev.filter((a) => a.id !== id));
-    alert("Changes requested for artefact");
+  const rejectArtefact = async (id) => {
+    try {
+      await fetch(`${API_BASE_URL}/api/artefacts/${id}/reject`, {
+        method: "POST",
+      });
+
+      setArtefacts((prev) => prev.filter((a) => a.id !== id));
+      alert("Changes requested for artefact");
+    } catch {
+      alert("Failed to reject artefact");
+    }
   };
 
   return (
@@ -24,14 +63,20 @@ const ReviewArtefact = () => {
         <button onClick={() => navigate(-1)} style={styles.backBtn}>
           ← Back
         </button>
+
         <h2 style={styles.title}>Pending Artefacts</h2>
         <p style={styles.subtitle}>
           Review and approve submitted knowledge artefacts
         </p>
 
-        {artefacts.length === 0 ? (
+        {loading && <p style={styles.empty}>Loading artefacts...</p>}
+        {error && <p style={styles.error}>{error}</p>}
+
+        {!loading && artefacts.length === 0 && (
           <p style={styles.empty}>No artefacts pending review.</p>
-        ) : (
+        )}
+
+        {!loading && artefacts.length > 0 && (
           <table style={styles.table}>
             <thead>
               <tr style={styles.headerRow}>
@@ -84,7 +129,7 @@ const styles = {
     background: "#ffffff",
     borderRadius: "12px",
     boxShadow: "0 15px 30px rgba(0,0,0,0.25)",
-    color: "#000", // ✅ ADD THIS
+    color: "#000",
   },
   title: {
     textAlign: "center",
@@ -102,6 +147,11 @@ const styles = {
     color: "#777",
     fontStyle: "italic",
   },
+  error: {
+    textAlign: "center",
+    color: "red",
+    marginBottom: "10px",
+  },
   table: {
     width: "100%",
     borderCollapse: "collapse",
@@ -113,13 +163,10 @@ const styles = {
     textAlign: "left",
     padding: "12px",
     fontSize: "14px",
-    color: "#000",
   },
-
   td: {
     padding: "12px",
     fontSize: "14px",
-    color: "#000",
     verticalAlign: "middle",
   },
   row: {

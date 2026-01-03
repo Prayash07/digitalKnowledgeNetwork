@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import DashboardTile from "../components/dashboardTile.jsx";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -86,16 +87,6 @@ const Dashboard = () => {
     </div>
   );
 };
-
-const DashboardTile = ({ title, desc, link, label }) => (
-  <div style={styles.tile}>
-    <h4>{title}</h4>
-    <p>{desc}</p>
-    <Link to={link} style={styles.link}>
-      {label}
-    </Link>
-  </div>
-);
 
 const styles = {
   container: {
