@@ -12,8 +12,11 @@ const ReviewArtefact = () => {
   // Fetch pending artefacts on load
   useEffect(() => {
     const fetchArtefacts = async () => {
+      console.log(
+        "Fetching artefacts from API... `${API_BASE_URL}/api/artefacts/`"
+      );
       try {
-        const res = await fetch(`${API_BASE_URL}/api/artefacts/pending`);
+        const res = await fetch(`${API_BASE_URL}/api/artefacts/`);
 
         if (!res.ok) {
           throw new Error("Failed to fetch artefacts");
@@ -33,8 +36,10 @@ const ReviewArtefact = () => {
 
   const approveArtefact = async (id) => {
     try {
-      await fetch(`${API_BASE_URL}/api/artefacts/${id}/approve`, {
+      await fetch(`${API_BASE_URL}/api/artefacts/${id}/review`, {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "APPROVED" }),
       });
 
       setArtefacts((prev) => prev.filter((a) => a.id !== id));
